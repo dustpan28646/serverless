@@ -539,6 +539,23 @@ describe('test/unit/lib/configuration/variables/parse.test.js', () => {
     it('should return null', () => expect(parse('fo$o b$$ar ()')).to.equal(null));
 
     // foo\${elo:}
-    it('should support escape character', () => expect(parse('foo\\${elo:}')).to.equal(null));
+    it('should support escape character', () =>
+      expect(parse('foo\\${elo:}miszka\\$${foo:}')).to.deep.equal([
+        {
+          start: 3,
+          end: 4,
+          value: '',
+        },
+        {
+          start: 17,
+          end: 18,
+          value: '',
+        },
+        {
+          start: 19,
+          end: 26,
+          sources: [{ type: 'foo' }],
+        },
+      ]));
   });
 });
